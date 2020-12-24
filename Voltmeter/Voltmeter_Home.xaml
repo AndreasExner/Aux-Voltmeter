@@ -1,0 +1,32 @@
+﻿<Page x:Class="Voltmeter.Voltmeter_Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Voltmeter"
+      mc:Ignorable="d" 
+      d:DesignHeight="640" d:DesignWidth="600"
+      Title="Voltmeter">
+
+    <Grid Margin="10,10,10,10">
+
+        <TextBox x:Name="Meter1_Value" HorizontalAlignment="Left" Height="70" Margin="10,110,0,0" TextWrapping="Wrap" Text="--,---" VerticalAlignment="Top" Width="220" FontSize="48" MaxLines="1" TextAlignment="Center"/>
+        <TextBox x:Name="Meter2_Value" HorizontalAlignment="Left" Height="70" Margin="10,250,0,0" TextWrapping="Wrap" Text="--,---" VerticalAlignment="Top" Width="220" FontSize="48" MaxLines="1" TextAlignment="Center"/>
+        <Label x:Name="Meter1_Label" Content="Kanal 1" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Foreground="White" RenderTransformOrigin="5.625,0.977"/>
+        <Label x:Name="Meter2_Label" Content="Kanal 2" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="Meter1_Unit" Content="Volt" HorizontalAlignment="Left" Margin="235,107,0,0" VerticalAlignment="Top" Foreground="White" FontSize="48"/>
+        <Label x:Name="Meter2_Unit" Content="Volt" HorizontalAlignment="Left" Margin="235,247,0,0" VerticalAlignment="Top" Foreground="White" FontSize="48"/>
+        <Label x:Name="StatusBar" Content="Status:" HorizontalAlignment="Left" Margin="10,512,0,0" VerticalAlignment="Top" Foreground="Black" RenderTransformOrigin="5.625,0.977" Width="560" Height="28" Background="#FF777777"/>
+        <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Left" Margin="470,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickExitButton" ClickMode="Press"/>
+        <TextBlock x:Name="IOerrors" HorizontalAlignment="Left" Margin="530,518,0,0" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Background="#FFB0B0B0" Height="16" Width="30" TextAlignment="Center"/>
+        <TextBlock x:Name="frameErrors" HorizontalAlignment="Left" Margin="444,518,0,0" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Background="#FFB0B0B0" Height="16" Width="30" TextAlignment="Center"/>
+        <Label x:Name="Header" Content="PC Voltmeter" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="24" Background="#FF353535" BorderThickness="2" BorderBrush="#FF898989" Width="160" Height="45" Margin="210,10,0,0"/>
+        <Label x:Name="IOerrors_Label" Content="IO Errors:" HorizontalAlignment="Left" Margin="478,515,0,0" VerticalAlignment="Top" Foreground="Black" RenderTransformOrigin="5.625,0.977" FontSize="10"/>
+        <Label x:Name="frameErrors_Label" Content="Frame Errors:" HorizontalAlignment="Left" Margin="376,515,0,0" VerticalAlignment="Top" Foreground="Black" RenderTransformOrigin="5.625,0.977" FontSize="10"/>
+        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="10,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickStartButton" ClickMode="Press"/>
+        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="130,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickStopButton" ClickMode="Press"/>
+        <Button x:Name="ConfigButton" Content="Config" HorizontalAlignment="Left" Margin="350,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickConfigButton" ClickMode="Press"/>
+        <TextBlock x:Name="SerialPort" HorizontalAlignment="Left" Margin="60,518,0,0" TextWrapping="Wrap" Text="-----" VerticalAlignment="Top" Height="16" Width="45" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
+        <TextBlock x:Name="BaudRate" HorizontalAlignment="Left" Margin="110,518,0,0" TextWrapping="Wrap" Text="----- kbps" VerticalAlignment="Top" Height="16" Width="80" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
+    </Grid>
+</Page>

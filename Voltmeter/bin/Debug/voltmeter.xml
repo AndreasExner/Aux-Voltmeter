@@ -1,0 +1,9 @@
+<voltmeter>
+  <serial>
+    <portName>COM8</portName>
+    <baudRate>57600</baudRate>
+  </serial>
+  <traceFile>
+    <traceFilePath>D:\</traceFilePath>
+  </traceFile>
+</voltmeter>
