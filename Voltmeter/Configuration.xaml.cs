@@ -23,8 +23,6 @@ namespace Voltmeter
         private static readonly SolidColorBrush mediumGrayBrush = new SolidColorBrush(Color.FromRgb(119, 119, 119));
         private static readonly SolidColorBrush redBrush = new SolidColorBrush(Color.FromRgb(200, 115, 115));
 
-        private static System.Timers.Timer aTimer;
-
         public Configuration()
         {
             InitializeComponent();
@@ -128,7 +126,7 @@ namespace Voltmeter
         {
 
             int index = sender.ToString().IndexOf("Content:");
-            string tempBaudRate = sender.ToString().Substring(index + 8, 5).Trim();
+            string tempBaudRate = sender.ToString().Substring(index + 8, 6).Trim();
 
             ConfigFile.configBaudRate = int.Parse(tempBaudRate);
             BaudRate.Text = ConfigFile.configBaudRate.ToString() + " kbps";
