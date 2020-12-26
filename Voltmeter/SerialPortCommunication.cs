@@ -8,16 +8,15 @@ namespace Voltmeter
     {
         static SerialPort _serialPort;
 
-        private static int[] vOutCache = new int[] {0, 0};
         private static int IOerrors = 0;
         private static int frameErrors = 0;
-
 
 // --------------- open and close serial port
 
         public static bool OpenSerial()
         {
-            _serialPort = new SerialPort();
+            SerialPort serialPort = new SerialPort();
+            _serialPort = serialPort;
             _serialPort.PortName = ConfigFile.configPortName;
             _serialPort.BaudRate = ConfigFile.configBaudRate;
             _serialPort.Parity = Parity.None;
@@ -37,6 +36,10 @@ namespace Voltmeter
                 return false;
 
             }
+            
+            IOerrors = 0;
+            frameErrors = 0;
+            
             return true;
         }
         public static void CloseSerial()
@@ -49,70 +52,76 @@ namespace Voltmeter
 
         public static int[] ReadSerial()
         {
-            int[] vOut = new int[] {0, 0, 0, 0};
+            int[] vOut = new int[] {0, 0, 0, IOerrors, frameErrors };  // status (0=dataReady; 1=noData; 100=timeoutError, 101=IOerror, 102=frameError), meter1, meter2, IOerrors, frameErrors
 
             byte[] rxBuffer = new byte[8];
-            int frameSize = 8;
+            int frameSize = 8; //expected RX frame size
             int bufferSize = 0;
-            int timeout = 10;
+            int timeout = 100; // x 10ms, should be >= the TX frame interval from ESP
 
-            while (bufferSize < 8)
+            while (timeout > 0 && bufferSize < frameSize) // wait for full frame (or more bytes)
             {
                 bufferSize = _serialPort.BytesToRead;
-                Thread.Sleep(100);
+                Thread.Sleep(10);
                 timeout--;
-                if (timeout <= 0) { break; }
             }
 
-            for (int i = 0; i < frameSize; i++)
+            if (bufferSize >= frameSize)  // received a full frame
             {
-                try
+                for (int i = 0; i < bufferSize; i++) // read full frame into buffer
                 {
-                    rxBuffer[i] = (byte)_serialPort.ReadByte();
-                }
-                catch (System.IO.IOException)  // handle IO errors
-                {
-                    _serialPort.DiscardInBuffer();
-                    vOut[0] = vOutCache[0];
-                    vOut[1] = vOutCache[1];
-                    IOerrors++;
-                    vOut[2] = IOerrors;
-                    vOut[3] = frameErrors;
-                    return vOut;
-                }
-                catch (System.TimeoutException)  // handle timeout
-                {
-                    _serialPort.DiscardInBuffer();
-                    vOut[0] = 0;
-                    vOut[1] = 0;
-                    vOut[2] = IOerrors;
-                    vOut[3] = frameErrors;
-                    return vOut;
+                    try
+                    {
+                        rxBuffer[i] = (byte)_serialPort.ReadByte();
+                    }
+                    catch (System.IO.IOException)  // handle IO errors and return zero
+                    {
+                        _serialPort.DiscardInBuffer();
+                        vOut[0] = 101;
+                        IOerrors++;
+                        vOut[3] = IOerrors;
+                        return vOut;
+                    }
+                    catch (System.TimeoutException)  // handle timeout like IO errors
+                    {
+                        _serialPort.DiscardInBuffer();
+                        vOut[0] = 101;
+                        IOerrors++;
+                        vOut[3] = IOerrors;
+                        return vOut;
+                    }
                 }
             }
-
-            _serialPort.DiscardInBuffer(); // flush buffer after every successfull frame
-
-            if (rxBuffer[0] == 1 && rxBuffer[1] == 174)  // check first two byte for 0x01 and 0xAE
+            else if (bufferSize > 0) // received frame fragments
             {
-                vOut[0] = (rxBuffer[2] + (rxBuffer[3] * 256));
-                vOut[1] = (rxBuffer[4] + (rxBuffer[5] * 256));
-                vOutCache[0] = vOut[0];
-                vOutCache[1] = vOut[1];
-                vOut[3] = frameErrors;
-                vOut[2] = IOerrors;
+                _serialPort.DiscardInBuffer();
+                vOut[0] = 102;
+                frameErrors++;
+                vOut[4] = frameErrors;
+                return vOut;
+            }
+            else // received no frame 
+            {
+                _serialPort.DiscardInBuffer();
+                vOut[0] = 100;
+                return vOut;
+            }
+
+            if (rxBuffer[0] == 1 && rxBuffer[1] == 174)  // check first two byte for 0x01 and 0xAE to identify frame order
+            {
+
+                vOut[0] = 0;
+                vOut[1] = (rxBuffer[2] + (rxBuffer[3] * 256));
+                vOut[2] = (rxBuffer[4] + (rxBuffer[5] * 256));
             }
             else // use last cached values is frame is invalid
             {
-                vOut[0] = vOutCache[0];
-                vOut[1] = vOutCache[1];
+                vOut[0] = 102;
                 frameErrors++;
-                vOut[2] = IOerrors;
-                vOut[3] = frameErrors;
+                vOut[4] = frameErrors;
             }
 
             return vOut;
-
         }
     }
 }

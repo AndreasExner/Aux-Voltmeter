@@ -28,5 +28,6 @@
         <Button x:Name="ConfigButton" Content="Config" HorizontalAlignment="Left" Margin="350,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickConfigButton" ClickMode="Press"/>
         <TextBlock x:Name="SerialPort" HorizontalAlignment="Left" Margin="60,518,0,0" TextWrapping="Wrap" Text="-----" VerticalAlignment="Top" Height="16" Width="45" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
         <TextBlock x:Name="BaudRate" HorizontalAlignment="Left" Margin="110,518,0,0" TextWrapping="Wrap" Text="----- kbps" VerticalAlignment="Top" Height="16" Width="80" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
+        <TextBlock x:Name="Status" HorizontalAlignment="Left" Margin="196,518,0,0" TextWrapping="Wrap" Text="-----" VerticalAlignment="Top" Height="16" Width="80" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
     </Grid>
 </Page>

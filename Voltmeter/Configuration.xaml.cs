@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,15 @@ using System.Windows.Shapes;
 
 namespace Voltmeter
 {
-    /// <summary>
-    /// Interaction logic for Page1.xaml
-    /// </summary>
+
     public partial class Configuration : Page
     {
+        private static readonly SolidColorBrush greenBrush = new SolidColorBrush(Color.FromRgb(145, 195, 153));
+        private static readonly SolidColorBrush mediumGrayBrush = new SolidColorBrush(Color.FromRgb(119, 119, 119));
+        private static readonly SolidColorBrush redBrush = new SolidColorBrush(Color.FromRgb(200, 115, 115));
+
+        private static System.Timers.Timer aTimer;
+
         public Configuration()
         {
             InitializeComponent();
@@ -96,6 +101,14 @@ namespace Voltmeter
 
         private void OnClickSaveButton(object sender, RoutedEventArgs e)
         {
+            if (ConfigFile.SaveConfig())
+            {
+                StatusBar.Background = greenBrush;
+            }
+            else
+            {
+                StatusBar.Background = redBrush;
+            }
         }
 
         private void OnClickOkButton(object sender, RoutedEventArgs e)
