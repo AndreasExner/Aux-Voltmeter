@@ -54,8 +54,8 @@ namespace Voltmeter
         {
             int[] vOut = new int[] {0, 0, 0, IOerrors, frameErrors };  // status (0=dataReady; 1=noData; 100=timeoutError, 101=IOerror, 102=frameError), meter1, meter2, IOerrors, frameErrors
 
-            byte[] rxBuffer = new byte[8];
-            int frameSize = 8; //expected RX frame size
+            byte[] rxBuffer = new byte[12];
+            int frameSize = 12; //expected RX frame size
             int bufferSize = 0;
             int timeout = 100; // x 10ms, should be >= the TX frame interval from ESP
 
@@ -68,11 +68,13 @@ namespace Voltmeter
 
             if (bufferSize >= frameSize)  // received a full frame
             {
+                //Console.Write("bufferSize=" + bufferSize.ToString() + " - frameSize=" + frameSize.ToString() + " -- ");
                 for (int i = 0; i < bufferSize; i++) // read full frame into buffer
                 {
                     try
                     {
                         rxBuffer[i] = (byte)_serialPort.ReadByte();
+                        //Console.Write(rxBuffer[i] + ", ");
                     }
                     catch (System.IO.IOException)  // handle IO errors and return zero
                     {
@@ -91,6 +93,7 @@ namespace Voltmeter
                         return vOut;
                     }
                 }
+                //Console.WriteLine(" ");
             }
             else if (bufferSize > 0) // received frame fragments
             {

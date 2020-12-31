@@ -6,12 +6,12 @@
       
       xmlns:local="clr-namespace:Voltmeter"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="600"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="Configuration">
 
     <Grid Margin="10,10,10,10">
         <Label x:Name="Header" Content="Configuration" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="24" Background="#FF353535" BorderThickness="2" BorderBrush="#FF898989" Width="160" Height="45" Margin="210,10,0,0"/>
-        <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="470,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickCloseButton" ClickMode="Press"/>
+        <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Left" Margin="670,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickCloseButton" ClickMode="Press"/>
         <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="10,440,0,0" VerticalAlignment="Top" Width="100" Height="50" FontFamily="Segoe UI Semibold" FontSize="24" Background="#FF919090" Click="OnClickSaveButton" ClickMode="Press"/>
         <Label x:Name="SerialPortLabel" Content="Serial Port:" HorizontalAlignment="Left" Margin="40,74,0,0" VerticalAlignment="Top" Foreground="White" RenderTransformOrigin="5.625,0.977"/>
         <StackPanel x:Name="SerialPortStack" HorizontalAlignment="Left" Height="175" Margin="40,100,0,0" VerticalAlignment="Top" Width="110" Background="White">
@@ -25,7 +25,7 @@
             <RadioButton x:Name="RBserialPortCOM8" Content="COM8" Margin="3,3,0,0" GroupName="GroupSerialPort" Click="OnReleaseSerialPortRadioButton" ClickMode="Release" FontFamily="Segoe UI Semibold"/>
             <RadioButton x:Name="RBserialPortCOM9" Content="COM9" Margin="3,3,0,0" GroupName="GroupSerialPort" Click="OnReleaseSerialPortRadioButton" ClickMode="Release" FontFamily="Segoe UI Semibold"/>
         </StackPanel>
-        <Label x:Name="StatusBar" Content="Config:" HorizontalAlignment="Left" Margin="10,512,0,0" VerticalAlignment="Top" Foreground="Black" RenderTransformOrigin="5.625,0.977" Width="560" Height="28" Background="#FF777777"/>
+        <Label x:Name="StatusBar" Content="Config:" HorizontalAlignment="Left" Margin="10,512,0,0" VerticalAlignment="Top" Foreground="Black" RenderTransformOrigin="5.625,0.977" Width="760" Height="28" Background="#FF777777"/>
         <TextBlock x:Name="SerialPort" HorizontalAlignment="Left" Margin="60,518,0,0" TextWrapping="Wrap" Text="-----" VerticalAlignment="Top" Height="16" Width="45" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
         <TextBlock x:Name="BaudRate" HorizontalAlignment="Left" Margin="110,518,0,0" TextWrapping="Wrap" Text="----- kbps" VerticalAlignment="Top" Height="16" Width="80" TextAlignment="Center" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
         <Label x:Name="BaudRateLabely" Content="Baud Rate:" HorizontalAlignment="Left" Margin="199,74,0,0" VerticalAlignment="Top" Foreground="White" RenderTransformOrigin="5.625,0.977"/>
@@ -41,6 +41,6 @@
         <TextBox x:Name="TBtraceFilePath" HorizontalAlignment="Left" Margin="40,320,0,0" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Width="400" FontSize="16"/>
         <Label x:Name="TraceFilePathLabel" Content="Must to end with &quot; \&quot;" HorizontalAlignment="Left" Margin="40,343,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB" RenderTransformOrigin="5.625,0.977" FontSize="10" Background="{x:Null}"/>
         <Button x:Name="OkButton" Content="Ok" HorizontalAlignment="Left" Margin="451,320,0,0" VerticalAlignment="Top" Width="40" Height="23" FontFamily="Segoe UI Semibold" Background="#FF919090" Click="OnClickOkButton" ClickMode="Press"/>
-        <TextBlock x:Name="TraceFilePath" HorizontalAlignment="Left" Margin="195,518,0,0" TextWrapping="Wrap" Text="-----------" VerticalAlignment="Top" Height="16" Width="300" TextAlignment="Left" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
+        <TextBlock x:Name="TraceFilePath" HorizontalAlignment="Left" Margin="195,518,0,0" TextWrapping="Wrap" Text="-----------" VerticalAlignment="Top" Height="16" Width="500" TextAlignment="Left" FontFamily="Segoe UI Semibold" Background="#FFB0B0B0"/>
     </Grid>
 </Page>

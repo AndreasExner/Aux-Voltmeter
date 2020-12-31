@@ -23,6 +23,7 @@ namespace Voltmeter
     {
         private static readonly SolidColorBrush greenBrush = new SolidColorBrush(Color.FromRgb(145, 195, 153));
         private static readonly SolidColorBrush mediumGrayBrush = new SolidColorBrush(Color.FromRgb(119, 119, 119));
+        private static readonly SolidColorBrush blackBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         private static readonly SolidColorBrush redBrush = new SolidColorBrush(Color.FromRgb(200, 115, 115));
 
         public Voltmeter_Home()
@@ -60,6 +61,8 @@ namespace Voltmeter
             {
                 Dispatcher.BeginInvoke(new Action(() => Meter1_Value.Text = (vOut[1] / 1000f).ToString("F3")));
                 Dispatcher.BeginInvoke(new Action(() => Meter2_Value.Text = (vOut[2] / 1000f).ToString("F3")));
+                Dispatcher.BeginInvoke(new Action(() => Meter3_Value.Text = (vOut[3] / 1000f).ToString("F3")));
+                Dispatcher.BeginInvoke(new Action(() => Meter4_Value.Text = (vOut[4] / 1000f).ToString("F3")));
             }
             else if (vOut[0] == 100)
             {
@@ -71,52 +74,95 @@ namespace Voltmeter
 
         // --------------- Buttons
 
-        private bool lockGUI = false;
-
         private void OnClickExitButton(object sender, RoutedEventArgs e)
         {
-            if(!lockGUI)
+            if (tMeasure == null)
             {
                 System.Windows.Application.Current.Shutdown();
+            }
+            else
+            {
+                if (!tMeasure.IsAlive)
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
             }
         }
 
         public void OnClickStartButton(object sender, RoutedEventArgs e)
         {
-            if (!lockGUI)
+            if (tMeasure == null)
             {
                 if (SerialPortCommunication.OpenSerial())
                 {
                     StatusBar.Background = greenBrush;
+                    StartButton.Foreground = mediumGrayBrush;
+                    ConfigButton.Foreground = mediumGrayBrush;
+                    ExitButton.Foreground = mediumGrayBrush;
                     tMeasure = StartMeasureLoop();
-                    lockGUI = true;
                 }
                 else
                 {
                     StatusBar.Background = redBrush;
                 }
             }
+            else
+            {
+                if (!tMeasure.IsAlive)
+                { 
+                    if (SerialPortCommunication.OpenSerial())
+                    {
+                        StatusBar.Background = greenBrush;
+                        StartButton.Foreground = mediumGrayBrush;
+                        ConfigButton.Foreground = mediumGrayBrush;
+                        ExitButton.Foreground = mediumGrayBrush;
+                        tMeasure = StartMeasureLoop();
+                    }
+                    else
+                    {
+                        StatusBar.Background = redBrush;
+                    }
+                }
+            }
         }
 
         private void OnClickStopButton(object sender, RoutedEventArgs e)
         {
-            tMeasure.Abort();
+            if (tMeasure != null)
+            {
+                if (tMeasure.IsAlive)
+                {
+                    tMeasure.Abort();
+                    tMeasure.Join();
+                    SerialPortCommunication.CloseSerial();
+                }
+            }
             StatusBar.Background = mediumGrayBrush;
+            StartButton.Foreground = blackBrush;
+            ConfigButton.Foreground = blackBrush;
+            ExitButton.Foreground = blackBrush;
             Meter1_Value.Text = "--,---";
             Meter2_Value.Text = "--,---";
+            Meter3_Value.Text = "--,---";
+            Meter4_Value.Text = "--,---";
             IOerrors.Text = "0";
             frameErrors.Text = "0";
-            Thread.Sleep(750);
-            SerialPortCommunication.CloseSerial();
-            lockGUI = false;
         }
 
         private void OnClickConfigButton(object sender, RoutedEventArgs e)
         {
-            if (!lockGUI)
+            if (tMeasure == null)
             {
                 Configuration configurationPage = new Configuration();
                 this.NavigationService.Navigate(configurationPage);
+            }
+            else
+            { 
+                if (!tMeasure.IsAlive)
+                {
+                    Configuration configurationPage = new Configuration();
+                    this.NavigationService.Navigate(configurationPage);
+                }
             }
         }
 
@@ -129,7 +175,6 @@ namespace Voltmeter
             MeasureLoopThreadWithState tws = new MeasureLoopThreadWithState(new MeasureCallback(ResultCallback));
             Thread tMeasure = new Thread(new ThreadStart(tws.MeasureLoopThread));
             tMeasure.Start();
-            Console.WriteLine("Main thread does some work, then waits.");
             return tMeasure;
         }
 

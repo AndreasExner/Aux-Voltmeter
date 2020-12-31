@@ -20,7 +20,6 @@ namespace Voltmeter
     public partial class Configuration : Page
     {
         private static readonly SolidColorBrush greenBrush = new SolidColorBrush(Color.FromRgb(145, 195, 153));
-        private static readonly SolidColorBrush mediumGrayBrush = new SolidColorBrush(Color.FromRgb(119, 119, 119));
         private static readonly SolidColorBrush redBrush = new SolidColorBrush(Color.FromRgb(200, 115, 115));
 
         public Configuration()
