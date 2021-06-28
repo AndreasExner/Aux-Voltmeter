@@ -36,9 +36,6 @@
 
 // device settings - change settings to match your requirements
 
-//const char* ssid     = "HAL9000IOT"; // Wifi SSID
-//const char* password = "J79tR3D5263zkdT52"; //Wifi password
-
 bool debug = true; //true = debug to serial and output to serial1; false = no debug / output to serial
 bool led = true; //enable external status LED on boot
 
