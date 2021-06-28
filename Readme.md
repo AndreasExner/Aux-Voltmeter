@@ -7,5 +7,5 @@ The project has two parts:
 
 Short description: 
 
-The NodeMCU uses an Adafruit_ADS1015 four channel 14 bit ADC for the voltage measurement. The data is send via serial1 to the PC, using an USB UART adapter. 
+The NodeMCU uses an Adafruit_ADS1115 four channel 14 bit ADC for the voltage measurement. The data is send via serial1 to the PC, using an USB UART adapter. 
 The w32 app displays the measured voltages and can be used for some basic configuration.
